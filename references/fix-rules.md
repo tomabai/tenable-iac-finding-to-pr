@@ -45,8 +45,5 @@ destroy infrastructure or get rejected on review).
 
 The `Policy.Name` and `Policy.Description` are the specification. Read them as
 "the desired end state", then express that end state in Terraform against the
-named resource. `references/fix-patterns.md` has concrete, tested patterns for
-the policies seen on this PoC repo; use them as a starting point and adapt to
-the actual resource names in the file. For policies not listed there, reason
-from the description and the relevant provider docs, still obeying every rule
-above.
+named resource, adapting to the actual resource names in the file. Reason from
+the description and the relevant provider docs, still obeying every rule above.

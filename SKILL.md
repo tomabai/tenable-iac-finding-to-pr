@@ -106,8 +106,8 @@ For each finding you're going to fix:
 2. Apply the **minimal** change that satisfies the policy, following every rule
    in `references/fix-rules.md` (minimal diff, never rename or remove resources,
    never fabricate values, preserve formatting). The policy `Name` +
-   `Description` tell you the intent; `references/fix-patterns.md` has known
-   Terraform patterns for common policies.
+   `Description` tell you the intent; express that end state in Terraform against
+   the named resource, reasoning from the description and the provider docs.
 3. If you cannot determine the correct fix with confidence, **do not guess**.
    Leave that finding out of the change set and note in the PR body that it
    needs manual review (the template covers this).

@@ -73,6 +73,30 @@ scripts/
   open_fix_pr.sh             branch + commit + push + open PR (with guards)
 ```
 
+## Known limitations
+
+- **MCP coverage can under-report.** The skill reads findings from a **connected
+  repo (SCM/OAuth connector)** via the TCS MCP. Pipeline "Code Scan" results from
+  the GitHub Action live in a separate store the MCP cannot query, and the MCP can
+  surface *fewer* findings than the Code Scans UI. If a finding you expect isn't
+  returned, the repo may only be pipeline-scanned, not connector-onboarded — the
+  skill says so rather than inventing results.
+- **Root causes outside the file aren't fixed.** If the real fix lives elsewhere
+  (a variable default in another module, an ARN/account id not present in the
+  repo), the skill fixes only what it safely can and notes the limitation in the
+  PR body instead of guessing.
+- **Some fixes aren't purely declarative.** For example, enabling S3 MFA delete
+  requires the root account and an MFA device at `terraform apply` time — the
+  Terraform change alone doesn't complete it. The PR body flags such cases.
+- **`gh`/`git` account gotchas.** `gh` can silently switch its active account
+  during auth operations (making a private repo 404), and a stale credential
+  helper after `gh auth refresh` can cause "Repository not found" on push. The
+  bundled `scripts/open_fix_pr.sh` guards against the account flip; see
+  [`references/mcp-setup.md`](references/mcp-setup.md) for the rest.
+- **Validation depends on your toolchain.** `terraform fmt`/`validate` only run if
+  Terraform is installed locally; when it isn't, the skill tells you in chat
+  (never in the PR body).
+
 ## License
 
 [MIT](LICENSE)
